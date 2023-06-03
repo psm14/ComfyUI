@@ -5612,7 +5612,7 @@ LGraphNode.prototype.executeAction = function(action)
         //this._touch_callback = this.touchHandler.bind(this);
 
 		LiteGraph.pointerListenerAdd(canvas,"down", this._mousedown_callback, true); //down do not need to store the binded
-        canvas.addEventListener("mousewheel", this._mousewheel_callback, false);
+        document.body.addEventListener("wheel", this._mousewheel_callback, { capture: true, passive: false });
 
         LiteGraph.pointerListenerAdd(canvas,"up", this._mouseup_callback, true); // CHECK: ??? binded or not
 		LiteGraph.pointerListenerAdd(canvas,"move", this._mousemove_callback);
@@ -6173,7 +6173,7 @@ LGraphNode.prototype.executeAction = function(action)
 
             if (!skip_action && clicking_canvas_bg && this.allow_dragcanvas) {
             	//console.log("pointerevents: dragging_canvas start");
-            	this.dragging_canvas = true;
+            	//this.dragging_canvas = true;
             }
             
         } else if (e.which == 2) {
@@ -6875,30 +6875,23 @@ LGraphNode.prototype.executeAction = function(action)
             return;
         }
 
-        var delta = e.wheelDeltaY != null ? e.wheelDeltaY : e.detail * -60;
+        e.preventDefault()
 
-        this.adjustMouseEvent(e);
-
-		var x = e.clientX;
-		var y = e.clientY;
-		var is_inside = !this.viewport || ( this.viewport && x >= this.viewport[0] && x < (this.viewport[0] + this.viewport[2]) && y >= this.viewport[1] && y < (this.viewport[1] + this.viewport[3]) );
-		if(!is_inside)
-			return;
-
-        var scale = this.ds.scale;
-
-        if (delta > 0) {
-            scale *= 1.1;
-        } else if (delta < 0) {
-            scale *= 1 / 1.1;
+        if (e.ctrlKey) {
+            // Zoom
+            var scale = this.ds.scale;
+            scale = scale - e.deltaY * scale * 0.01
+    
+            this.ds.changeScale(scale, [e.clientX, e.clientY]);
+        } else {
+            // Pan
+            this.ds.offset[0] += -e.deltaX / this.ds.scale;
+            this.ds.offset[1] += -e.deltaY / this.ds.scale;
+            this.dirty_canvas = true;
+            this.dirty_bgcanvas = true;
         }
-
-        //this.setZoom( scale, [ e.clientX, e.clientY ] );
-        this.ds.changeScale(scale, [e.clientX, e.clientY]);
-
         this.graph.change();
 
-        e.preventDefault();
         return false; // prevent default
     };
 
