@@ -202,7 +202,7 @@ export function addDomClippingSetting() {
 }
 
 LGraphNode.prototype.addDOMWidget = function (name, type, element, options) {
-	options = { hideOnZoom: true, selectOn: ["focus", "click"], ...options };
+	options = { hideOnZoom: false, selectOn: ["focus", "click"], ...options };
 
 	if (!element.parentElement) {
 		document.body.append(element);
