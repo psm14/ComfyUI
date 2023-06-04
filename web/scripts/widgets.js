@@ -154,7 +154,7 @@ function addMultilineWidget(node, name, opts, app) {
 				// Calculate it here instead
 				computeSize(node.size);
 			}
-			const visible = app.canvas.ds.scale > 0.5 && this.type === "customtext";
+			//const visible = app.canvas.ds.scale > 0.5 && this.type === "customtext";
 			const margin = 10;
 			const elRect = ctx.canvas.getBoundingClientRect();
 			const transform = new DOMMatrix()
@@ -174,7 +174,7 @@ function addMultilineWidget(node, name, opts, app) {
 				color: (!node.color)?'':'white',
 				zIndex: app.graph._nodes.indexOf(node),
 			});
-			this.inputEl.hidden = !visible;
+			//this.inputEl.hidden = !visible;
 		},
 	};
 	widget.inputEl = document.createElement("textarea");

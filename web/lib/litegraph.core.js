@@ -8365,7 +8365,7 @@ LGraphNode.prototype.executeAction = function(action)
             glow = true;
         }
 
-        var low_quality = this.ds.scale < 0.6; //zoomed out
+        var low_quality = false; //this.ds.scale < 0.6; //zoomed out
 
         //only render if it forces it to do it
         if (this.live_mode) {
@@ -8858,7 +8858,7 @@ LGraphNode.prototype.executeAction = function(action)
         ctx.fillStyle = bgcolor;
 
         var title_height = LiteGraph.NODE_TITLE_HEIGHT;
-        var low_quality = this.ds.scale < 0.5;
+        var low_quality = false; //this.ds.scale < 0.5;
 
         //render node area depending on shape
         var shape =
@@ -9469,7 +9469,7 @@ LGraphNode.prototype.executeAction = function(action)
         //rendering the outline of the connection can be a little bit slow
         if (
             this.render_connections_border &&
-            this.ds.scale > 0.6 &&
+            //this.ds.scale > 0.6 &&
             !skip_border
         ) {
             ctx.strokeStyle = "rgba(0,0,0,0.5)";
@@ -9489,7 +9489,7 @@ LGraphNode.prototype.executeAction = function(action)
 
         //render arrow in the middle
         if (
-            this.ds.scale >= 0.6 &&
+            //this.ds.scale >= 0.6 &&
             this.highquality_render &&
             end_dir != LiteGraph.CENTER
         ) {
@@ -9690,7 +9690,7 @@ LGraphNode.prototype.executeAction = function(action)
         var widgets = node.widgets;
         posY += 2;
         var H = LiteGraph.NODE_WIDGET_HEIGHT;
-        var show_text = this.ds.scale > 0.5;
+        var show_text = true; //this.ds.scale > 0.5;
         ctx.save();
         ctx.globalAlpha = this.editor_alpha;
         var outline_color = LiteGraph.WIDGET_OUTLINE_COLOR;
